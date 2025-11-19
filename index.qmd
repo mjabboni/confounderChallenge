@@ -307,12 +307,15 @@ The key to handling a common cause confounder is to stratify by the common cause
 import matplotlib.pyplot as plt
 import numpy as np
 
-# Calculate means for each doctor
-dreamy_df = patients_df[patients_df['doctor_name'] == 'Doc Dreamy']
-duck_df = patients_df[patients_df['doctor_name'] == 'Doc Duck']
+# Filter data to only include patients with severity between -1 and 1 (the overlapping region)
+patients_subset = patients_df[(patients_df['severity'] >= -1) & (patients_df['severity'] <= 1)]
 
-mean_dreamy = dreamy_df['post_surgical_score'].mean()
-mean_duck = duck_df['post_surgical_score'].mean()
+# Calculate means for each doctor using the subset
+dreamy_subset = patients_subset[patients_subset['doctor_name'] == 'Doc Dreamy']
+duck_subset = patients_subset[patients_subset['doctor_name'] == 'Doc Duck']
+
+mean_dreamy_subset = dreamy_subset['post_surgical_score'].mean()
+mean_duck_subset = duck_subset['post_surgical_score'].mean()
 
 # Create figure
 fig, ax = plt.subplots(figsize=(8, 8))
@@ -324,39 +327,39 @@ ax.axvspan(-1, 1, alpha=0.15, color='gray', zorder=0)
 # Using RdYlGn_r (reversed Red-Yellow-Green) so red = high severity, green = low severity
 cmap = plt.cm.RdYlGn_r
 
-# Normalize severity values for colormap
-severity_min = patients_df['severity'].min()
-severity_max = patients_df['severity'].max()
+# Normalize severity values for colormap based on the subset range
+severity_min = patients_subset['severity'].min()
+severity_max = patients_subset['severity'].max()
 norm = plt.Normalize(vmin=severity_min, vmax=severity_max)
 
-# Plot scatter points with color gradient based on severity
-scatter_dreamy = ax.scatter(dreamy_df['severity'], dreamy_df['post_surgical_score'], 
-           marker='o', s=100, c=dreamy_df['severity'], cmap=cmap, norm=norm,
+# Plot scatter points with color gradient based on severity (only subset)
+scatter_dreamy = ax.scatter(dreamy_subset['severity'], dreamy_subset['post_surgical_score'], 
+           marker='o', s=100, c=dreamy_subset['severity'], cmap=cmap, norm=norm,
            label='Doc Dreamy', alpha=0.8, edgecolors='black', linewidth=0.5, zorder=3)
-scatter_duck = ax.scatter(duck_df['severity'], duck_df['post_surgical_score'], 
-           marker='^', s=100, c=duck_df['severity'], cmap=cmap, norm=norm,
+scatter_duck = ax.scatter(duck_subset['severity'], duck_subset['post_surgical_score'], 
+           marker='^', s=100, c=duck_subset['severity'], cmap=cmap, norm=norm,
            label='Doc Duck', alpha=0.8, edgecolors='black', linewidth=0.5, zorder=3)
 
 # Add colorbar to show severity gradient
 cbar = plt.colorbar(scatter_dreamy, ax=ax, pad=0.02)
 cbar.set_label('Patient Severity\n(Higher = More Severe)', rotation=270, labelpad=20, fontsize=11, fontweight='bold')
 
-# Add horizontal mean lines
-ax.axhline(mean_dreamy, color='#4E79A7', linestyle='--', linewidth=2, alpha=0.8, zorder=2)
-ax.axhline(mean_duck, color='#E15759', linestyle='--', linewidth=2, alpha=0.8, zorder=2)
+# Add horizontal mean lines for the subset
+ax.axhline(mean_dreamy_subset, color='#4E79A7', linestyle='--', linewidth=2, alpha=0.8, zorder=2)
+ax.axhline(mean_duck_subset, color='#E15759', linestyle='--', linewidth=2, alpha=0.8, zorder=2)
 
 # Add text annotations with symbols in square boxes (positioned on the left side)
-ax.text(-2.8, mean_dreamy, f'○ Doc Dreamy Mean: {mean_dreamy:.2f}', 
+ax.text(-0.9, mean_dreamy_subset, f'○ Doc Dreamy Mean: {mean_dreamy_subset:.2f}', 
         fontsize=11, color='#4E79A7', fontweight='bold', va='center',
         bbox=dict(boxstyle='square', facecolor='white', edgecolor='#4E79A7', alpha=0.9, linewidth=2))
-ax.text(-2.8, mean_duck, f'△ Doc Duck Mean: {mean_duck:.2f}', 
+ax.text(-0.9, mean_duck_subset, f'△ Doc Duck Mean: {mean_duck_subset:.2f}', 
         fontsize=11, color='#E15759', fontweight='bold', va='center',
         bbox=dict(boxstyle='square', facecolor='white', edgecolor='#E15759', alpha=0.9, linewidth=2))
 
 # Styling
 ax.set_xlabel('Initial Patient Severity', fontsize=12, fontweight='bold')
 ax.set_ylabel('Post-Surgical Score\n(Lower is Better)', fontsize=12, fontweight='bold')
-ax.set_title('Post-Surgical Symptom Score by Patient Severity', fontsize=14, fontweight='bold', pad=20)
+ax.set_title('Post-Surgical Symptom Score by Patient Severity\n(Stratified Subset: Severity -1 to 1)', fontsize=14, fontweight='bold', pad=20)
 ax.legend(loc='upper right', fontsize=11, frameon=True, shadow=True)
 ax.grid(True, alpha=0.3, linestyle='-', linewidth=0.5)
 
