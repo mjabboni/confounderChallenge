@@ -263,7 +263,7 @@ mean_dreamy_rand = dreamy_rand_df['post_surgical_score'].mean()
 mean_duck_rand = duck_rand_df['post_surgical_score'].mean()
 
 # Create figure
-fig, ax = plt.subplots(figsize=(5, 6))
+fig, ax = plt.subplots(figsize=(6.5, 7.5))
 
 # Plot scatter points
 ax.scatter(dreamy_rand_df['patient'], dreamy_rand_df['post_surgical_score'], 
@@ -320,8 +320,20 @@ mean_duck_subset = duck_subset['post_surgical_score'].mean()
 # Create figure
 fig, ax = plt.subplots(figsize=(8, 8))
 
-# Add shaded region first (so it's behind the points)
-ax.axvspan(-1, 1, alpha=0.15, color='gray', zorder=0)
+# Add gradient shading to represent the common cause confounder (severity)
+# Create multiple vertical bands with colors representing severity levels
+# This visually shows how severity (the confounder) stratifies the data
+severity_bands = np.linspace(patients_subset['severity'].min(), patients_subset['severity'].max(), 50)
+cmap_background = plt.cm.RdYlGn_r
+for i in range(len(severity_bands)-1):
+    band_start = severity_bands[i]
+    band_end = severity_bands[i+1]
+    # Normalize the color based on severity
+    color_intensity = (band_start - severity_bands.min()) / (severity_bands.max() - severity_bands.min())
+    ax.axvspan(band_start, band_end, alpha=0.12, color=cmap_background(color_intensity), zorder=0)
+
+# Add darker highlight for the overlapping region (-1 to 1)
+ax.axvspan(-1, 1, alpha=0.08, color='black', zorder=1, linestyle='--', linewidth=2, edgecolor='black')
 
 # Create colormap for severity gradient (darker = more severe)
 # Using RdYlGn_r (reversed Red-Yellow-Green) so red = high severity, green = low severity
