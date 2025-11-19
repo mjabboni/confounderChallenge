@@ -130,7 +130,7 @@ ax.text(5, mean_duck - 0.15, f'△ Doc Duck Mean: {mean_duck:.2f}',
 
 # Styling
 ax.set_xlabel('Patient Number', fontsize=12, fontweight='bold')
-ax.set_ylabel('Post-Surgical Symptom Score (Lower is Better)', fontsize=12, fontweight='bold')
+ax.set_ylabel('Post-Surgical Score\n(Lower is Better)', fontsize=12, fontweight='bold')
 ax.set_title('Post-Surgical Symptom Score by Patient and Doctor', fontsize=14, fontweight='bold', pad=20)
 ax.legend(loc='upper right', fontsize=11, frameon=True, shadow=True)
 ax.grid(True, alpha=0.3, linestyle='-', linewidth=0.5)
@@ -261,7 +261,7 @@ mean_dreamy_rand = dreamy_rand_df['post_surgical_score'].mean()
 mean_duck_rand = duck_rand_df['post_surgical_score'].mean()
 
 # Create figure
-fig, ax = plt.subplots(figsize=(10, 6))
+fig, ax = plt.subplots(figsize=(6, 5))
 
 # Plot scatter points
 ax.scatter(dreamy_rand_df['patient'], dreamy_rand_df['post_surgical_score'], 
@@ -281,7 +281,7 @@ ax.text(5, mean_duck_rand - 0.15, f'△ Doc Duck Mean: {mean_duck_rand:.2f}',
 
 # Styling
 ax.set_xlabel('Patient Number', fontsize=12, fontweight='bold')
-ax.set_ylabel('Post-Surgical Symptom Score (Lower is Better)', fontsize=12, fontweight='bold')
+ax.set_ylabel('Post-Surgical Score\n(Lower is Better)', fontsize=12, fontweight='bold')
 ax.set_title('Post-Surgical Symptom Score (Randomized Assignment)', fontsize=14, fontweight='bold', pad=20)
 ax.legend(loc='upper right', fontsize=11, frameon=True, shadow=True)
 ax.grid(True, alpha=0.3, linestyle='-', linewidth=0.5)
@@ -316,11 +316,26 @@ fig, ax = plt.subplots(figsize=(10, 8))
 # Add shaded region first (so it's behind the points)
 ax.axvspan(-1, 1, alpha=0.15, color='gray', zorder=0)
 
-# Plot scatter points
-ax.scatter(dreamy_df['severity'], dreamy_df['post_surgical_score'], 
-           marker='o', s=100, color='#4E79A7', label='Doc Dreamy', alpha=0.7, edgecolors='black', linewidth=0.5, zorder=3)
-ax.scatter(duck_df['severity'], duck_df['post_surgical_score'], 
-           marker='^', s=100, color='#E15759', label='Doc Duck', alpha=0.7, edgecolors='black', linewidth=0.5, zorder=3)
+# Create colormap for severity gradient (darker = more severe)
+# Using RdYlGn_r (reversed Red-Yellow-Green) so red = high severity, green = low severity
+cmap = plt.cm.RdYlGn_r
+
+# Normalize severity values for colormap
+severity_min = patients_df['severity'].min()
+severity_max = patients_df['severity'].max()
+norm = plt.Normalize(vmin=severity_min, vmax=severity_max)
+
+# Plot scatter points with color gradient based on severity
+scatter_dreamy = ax.scatter(dreamy_df['severity'], dreamy_df['post_surgical_score'], 
+           marker='o', s=100, c=dreamy_df['severity'], cmap=cmap, norm=norm,
+           label='Doc Dreamy', alpha=0.8, edgecolors='black', linewidth=0.5, zorder=3)
+scatter_duck = ax.scatter(duck_df['severity'], duck_df['post_surgical_score'], 
+           marker='^', s=100, c=duck_df['severity'], cmap=cmap, norm=norm,
+           label='Doc Duck', alpha=0.8, edgecolors='black', linewidth=0.5, zorder=3)
+
+# Add colorbar to show severity gradient
+cbar = plt.colorbar(scatter_dreamy, ax=ax, pad=0.02)
+cbar.set_label('Patient Severity\n(Higher = More Severe)', rotation=270, labelpad=20, fontsize=11, fontweight='bold')
 
 # Add horizontal mean lines
 ax.axhline(mean_dreamy, color='#4E79A7', linestyle='--', linewidth=2, alpha=0.8, zorder=2)
@@ -334,7 +349,7 @@ ax.text(-2.8, mean_duck - 0.15, f'△ Doc Duck Mean: {mean_duck:.2f}',
 
 # Styling
 ax.set_xlabel('Initial Patient Severity', fontsize=12, fontweight='bold')
-ax.set_ylabel('Post-Surgical Symptom Score (Lower is Better)', fontsize=12, fontweight='bold')
+ax.set_ylabel('Post-Surgical Score\n(Lower is Better)', fontsize=12, fontweight='bold')
 ax.set_title('Post-Surgical Symptom Score by Patient Severity', fontsize=14, fontweight='bold', pad=20)
 ax.legend(loc='upper right', fontsize=11, frameon=True, shadow=True)
 ax.grid(True, alpha=0.3, linestyle='-', linewidth=0.5)
