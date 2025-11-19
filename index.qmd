@@ -110,7 +110,7 @@ mean_dreamy = dreamy_df['post_surgical_score'].mean()
 mean_duck = duck_df['post_surgical_score'].mean()
 
 # Create figure
-fig, ax = plt.subplots(figsize=(10, 6))
+fig, ax = plt.subplots(figsize=(9, 6))
 
 # Plot scatter points
 ax.scatter(dreamy_df['patient'], dreamy_df['post_surgical_score'], 
@@ -122,11 +122,13 @@ ax.scatter(duck_df['patient'], duck_df['post_surgical_score'],
 ax.axhline(mean_dreamy, color='#4E79A7', linestyle='--', linewidth=2, alpha=0.8)
 ax.axhline(mean_duck, color='#E15759', linestyle='--', linewidth=2, alpha=0.8)
 
-# Add text annotations with symbols
+# Add text annotations with symbols in square boxes
 ax.text(5, mean_dreamy + 0.15, f'○ Doc Dreamy Mean: {mean_dreamy:.2f}', 
-        fontsize=11, color='#4E79A7', fontweight='bold', va='bottom')
+        fontsize=11, color='#4E79A7', fontweight='bold', va='bottom',
+        bbox=dict(boxstyle='square', facecolor='white', edgecolor='#4E79A7', alpha=0.9, linewidth=2))
 ax.text(5, mean_duck - 0.15, f'△ Doc Duck Mean: {mean_duck:.2f}', 
-        fontsize=11, color='#E15759', fontweight='bold', va='top')
+        fontsize=11, color='#E15759', fontweight='bold', va='top',
+        bbox=dict(boxstyle='square', facecolor='white', edgecolor='#E15759', alpha=0.9, linewidth=2))
 
 # Styling
 ax.set_xlabel('Patient Number', fontsize=12, fontweight='bold')
@@ -261,7 +263,7 @@ mean_dreamy_rand = dreamy_rand_df['post_surgical_score'].mean()
 mean_duck_rand = duck_rand_df['post_surgical_score'].mean()
 
 # Create figure
-fig, ax = plt.subplots(figsize=(6, 5))
+fig, ax = plt.subplots(figsize=(5, 5))
 
 # Plot scatter points
 ax.scatter(dreamy_rand_df['patient'], dreamy_rand_df['post_surgical_score'], 
@@ -273,11 +275,13 @@ ax.scatter(duck_rand_df['patient'], duck_rand_df['post_surgical_score'],
 ax.axhline(mean_dreamy_rand, color='#4E79A7', linestyle='--', linewidth=2, alpha=0.8)
 ax.axhline(mean_duck_rand, color='#E15759', linestyle='--', linewidth=2, alpha=0.8)
 
-# Add text annotations with symbols
+# Add text annotations with symbols in square boxes
 ax.text(5, mean_dreamy_rand + 0.15, f'○ Doc Dreamy Mean: {mean_dreamy_rand:.2f}', 
-        fontsize=11, color='#4E79A7', fontweight='bold', va='bottom')
+        fontsize=11, color='#4E79A7', fontweight='bold', va='bottom',
+        bbox=dict(boxstyle='square', facecolor='white', edgecolor='#4E79A7', alpha=0.9, linewidth=2))
 ax.text(5, mean_duck_rand - 0.15, f'△ Doc Duck Mean: {mean_duck_rand:.2f}', 
-        fontsize=11, color='#E15759', fontweight='bold', va='top')
+        fontsize=11, color='#E15759', fontweight='bold', va='top',
+        bbox=dict(boxstyle='square', facecolor='white', edgecolor='#E15759', alpha=0.9, linewidth=2))
 
 # Styling
 ax.set_xlabel('Patient Number', fontsize=12, fontweight='bold')
@@ -311,7 +315,7 @@ mean_dreamy = dreamy_df['post_surgical_score'].mean()
 mean_duck = duck_df['post_surgical_score'].mean()
 
 # Create figure
-fig, ax = plt.subplots(figsize=(10, 8))
+fig, ax = plt.subplots(figsize=(9, 8))
 
 # Add shaded region first (so it's behind the points)
 ax.axvspan(-1, 1, alpha=0.15, color='gray', zorder=0)
@@ -341,11 +345,13 @@ cbar.set_label('Patient Severity\n(Higher = More Severe)', rotation=270, labelpa
 ax.axhline(mean_dreamy, color='#4E79A7', linestyle='--', linewidth=2, alpha=0.8, zorder=2)
 ax.axhline(mean_duck, color='#E15759', linestyle='--', linewidth=2, alpha=0.8, zorder=2)
 
-# Add text annotations with symbols (positioned on the left side)
+# Add text annotations with symbols in square boxes (positioned on the left side)
 ax.text(-2.8, mean_dreamy + 0.15, f'○ Doc Dreamy Mean: {mean_dreamy:.2f}', 
-        fontsize=11, color='#4E79A7', fontweight='bold', va='bottom')
+        fontsize=11, color='#4E79A7', fontweight='bold', va='bottom',
+        bbox=dict(boxstyle='square', facecolor='white', edgecolor='#4E79A7', alpha=0.9, linewidth=2))
 ax.text(-2.8, mean_duck - 0.15, f'△ Doc Duck Mean: {mean_duck:.2f}', 
-        fontsize=11, color='#E15759', fontweight='bold', va='top')
+        fontsize=11, color='#E15759', fontweight='bold', va='top',
+        bbox=dict(boxstyle='square', facecolor='white', edgecolor='#E15759', alpha=0.9, linewidth=2))
 
 # Styling
 ax.set_xlabel('Initial Patient Severity', fontsize=12, fontweight='bold')
