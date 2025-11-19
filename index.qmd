@@ -110,7 +110,7 @@ mean_dreamy = dreamy_df['post_surgical_score'].mean()
 mean_duck = duck_df['post_surgical_score'].mean()
 
 # Create figure
-fig, ax = plt.subplots(figsize=(8, 6))
+fig, ax = plt.subplots(figsize=(8, 8))
 
 # Plot scatter points
 ax.scatter(dreamy_df['patient'], dreamy_df['post_surgical_score'], 
@@ -123,11 +123,11 @@ ax.axhline(mean_dreamy, color='#4E79A7', linestyle='--', linewidth=2, alpha=0.8)
 ax.axhline(mean_duck, color='#E15759', linestyle='--', linewidth=2, alpha=0.8)
 
 # Add text annotations with symbols in square boxes
-ax.text(5, mean_dreamy + 0.15, f'○ Doc Dreamy Mean: {mean_dreamy:.2f}', 
-        fontsize=11, color='#4E79A7', fontweight='bold', va='bottom',
+ax.text(5, mean_dreamy, f'○ Doc Dreamy Mean: {mean_dreamy:.2f}', 
+        fontsize=11, color='#4E79A7', fontweight='bold', va='center',
         bbox=dict(boxstyle='square', facecolor='white', edgecolor='#4E79A7', alpha=0.9, linewidth=2))
-ax.text(5, mean_duck - 0.15, f'△ Doc Duck Mean: {mean_duck:.2f}', 
-        fontsize=11, color='#E15759', fontweight='bold', va='top',
+ax.text(5, mean_duck, f'△ Doc Duck Mean: {mean_duck:.2f}', 
+        fontsize=11, color='#E15759', fontweight='bold', va='center',
         bbox=dict(boxstyle='square', facecolor='white', edgecolor='#E15759', alpha=0.9, linewidth=2))
 
 # Styling
@@ -346,11 +346,11 @@ ax.axhline(mean_dreamy, color='#4E79A7', linestyle='--', linewidth=2, alpha=0.8,
 ax.axhline(mean_duck, color='#E15759', linestyle='--', linewidth=2, alpha=0.8, zorder=2)
 
 # Add text annotations with symbols in square boxes (positioned on the left side)
-ax.text(-2.8, mean_dreamy + 0.15, f'○ Doc Dreamy Mean: {mean_dreamy:.2f}', 
-        fontsize=11, color='#4E79A7', fontweight='bold', va='bottom',
+ax.text(-2.8, mean_dreamy, f'○ Doc Dreamy Mean: {mean_dreamy:.2f}', 
+        fontsize=11, color='#4E79A7', fontweight='bold', va='center',
         bbox=dict(boxstyle='square', facecolor='white', edgecolor='#4E79A7', alpha=0.9, linewidth=2))
-ax.text(-2.8, mean_duck - 0.15, f'△ Doc Duck Mean: {mean_duck:.2f}', 
-        fontsize=11, color='#E15759', fontweight='bold', va='top',
+ax.text(-2.8, mean_duck, f'△ Doc Duck Mean: {mean_duck:.2f}', 
+        fontsize=11, color='#E15759', fontweight='bold', va='center',
         bbox=dict(boxstyle='square', facecolor='white', edgecolor='#E15759', alpha=0.9, linewidth=2))
 
 # Styling
