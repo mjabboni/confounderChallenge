@@ -311,7 +311,7 @@ mean_dreamy = dreamy_df['post_surgical_score'].mean()
 mean_duck = duck_df['post_surgical_score'].mean()
 
 # Create figure
-fig, ax = plt.subplots(figsize=(10, 6))
+fig, ax = plt.subplots(figsize=(10, 8))
 
 # Add shaded region first (so it's behind the points)
 ax.axvspan(-1, 1, alpha=0.15, color='gray', zorder=0)
